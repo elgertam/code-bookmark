@@ -1,0 +1,224 @@
+{
+  "name": "tab-bookmarks",
+  "displayName": "Tab Bookmarks",
+  "description": "Bookmark tabs, organize them into groups, and quickly reopen them",
+  "version": "0.1.0",
+  "publisher": "vscode-extensions",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "tab-bookmarks",
+          "title": "Tab Bookmarks",
+          "icon": "media/bookmark-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "tab-bookmarks": [
+        {
+          "id": "bookmarkExplorer",
+          "name": "Bookmarks"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "tabBookmarks.bookmarkCurrentTab",
+        "title": "Bookmark Current Tab",
+        "icon": {
+          "light": "media/bookmark-light.svg",
+          "dark": "media/bookmark-dark.svg"
+        }
+      },
+      {
+        "command": "tabBookmarks.removeBookmark",
+        "title": "Remove Bookmark",
+        "icon": {
+          "light": "media/remove-light.svg",
+          "dark": "media/remove-dark.svg"
+        }
+      },
+      {
+        "command": "tabBookmarks.createGroup",
+        "title": "Create Bookmark Group",
+        "icon": {
+          "light": "media/new-folder-light.svg",
+          "dark": "media/new-folder-dark.svg"
+        }
+      },
+      {
+        "command": "tabBookmarks.deleteGroup",
+        "title": "Delete Group",
+        "icon": {
+          "light": "media/trash-light.svg",
+          "dark": "media/trash-dark.svg"
+        }
+      },
+      {
+        "command": "tabBookmarks.renameGroup",
+        "title": "Rename Group"
+      },
+      {
+        "command": "tabBookmarks.addDescription",
+        "title": "Add/Edit Description"
+      },
+      {
+        "command": "tabBookmarks.openGroup",
+        "title": "Open All Files in Group",
+        "icon": {
+          "light": "media/open-all-light.svg",
+          "dark": "media/open-all-dark.svg"
+        }
+      },
+      {
+        "command": "tabBookmarks.closeGroup",
+        "title": "Close All Files in Group",
+        "icon": {
+          "light": "media/close-all-light.svg",
+          "dark": "media/close-all-dark.svg"
+        }
+      },
+      {
+        "command": "tabBookmarks.previewGroup",
+        "title": "Preview Files in Group"
+      },
+      {
+        "command": "tabBookmarks.exportBookmarks",
+        "title": "Export Bookmarks"
+      },
+      {
+        "command": "tabBookmarks.importBookmarks",
+        "title": "Import Bookmarks"
+      },
+      {
+        "command": "tabBookmarks.addToGroup",
+        "title": "Add to Group"
+      },
+      {
+        "command": "tabBookmarks.refresh",
+        "title": "Refresh",
+        "icon": {
+          "light": "media/refresh-light.svg",
+          "dark": "media/refresh-dark.svg"
+        }
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "tabBookmarks.createGroup",
+          "when": "view == bookmarkExplorer",
+          "group": "navigation"
+        },
+        {
+          "command": "tabBookmarks.refresh",
+          "when": "view == bookmarkExplorer",
+          "group": "navigation"
+        },
+        {
+          "command": "tabBookmarks.exportBookmarks",
+          "when": "view == bookmarkExplorer",
+          "group": "2_export"
+        },
+        {
+          "command": "tabBookmarks.importBookmarks",
+          "when": "view == bookmarkExplorer",
+          "group": "2_export"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "tabBookmarks.openGroup",
+          "when": "view == bookmarkExplorer && viewItem == group",
+          "group": "inline"
+        },
+        {
+          "command": "tabBookmarks.closeGroup",
+          "when": "view == bookmarkExplorer && viewItem == group",
+          "group": "inline"
+        },
+        {
+          "command": "tabBookmarks.deleteGroup",
+          "when": "view == bookmarkExplorer && viewItem == group",
+          "group": "inline"
+        },
+        {
+          "command": "tabBookmarks.renameGroup",
+          "when": "view == bookmarkExplorer && viewItem == group",
+          "group": "1_modify"
+        },
+        {
+          "command": "tabBookmarks.addDescription",
+          "when": "view == bookmarkExplorer && viewItem == group",
+          "group": "1_modify"
+        },
+        {
+          "command": "tabBookmarks.previewGroup",
+          "when": "view == bookmarkExplorer && viewItem == group",
+          "group": "2_operation"
+        },
+        {
+          "command": "tabBookmarks.removeBookmark",
+          "when": "view == bookmarkExplorer && viewItem == bookmark",
+          "group": "inline"
+        },
+        {
+          "command": "tabBookmarks.addToGroup",
+          "when": "view == bookmarkExplorer && viewItem == bookmark",
+          "group": "1_modify"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "tabBookmarks.bookmarkCurrentTab",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Tab Bookmarks",
+      "properties": {
+        "tabBookmarks.syncEnabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable syncing bookmarks across VS Code instances"
+        },
+        "tabBookmarks.showInEditor": {
+          "type": "boolean",
+          "default": true, 
+          "description": "Show bookmark icon in editor title"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.80.0",
+    "@types/glob": "^8.1.0",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "16.x",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.44.0",
+    "glob": "^10.3.3",
+    "mocha": "^10.2.0",
+    "typescript": "^5.1.6",
+    "@vscode/test-electron": "^2.3.4"
+  }
+}
